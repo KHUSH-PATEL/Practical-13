@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Practical_13.Models.EmployeeTest1>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-outline-warning" asp-route-id="@item.Id">Edit</a> &nbsp;
+                    <a asp-action="Details" class="btn btn-outline-secondary" asp-route-id="@item.Id">Details</a> &nbsp;
+                    <button type="submit" class="btn btn-outline-danger" id="deleteBtn">Delete</button>
+                    <input id="getId" type="hidden" value="@item.Id" />
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>        
+        document.getElementById("deleteBtn").addEventListener("click", function () {
+            var itemId = document.getElementById("getId").value;
+            var result = window.confirm("Are you sure you want to delete this item?");
+            if (result) {
+                window.location.href = '@Url.Action("Delete", "EmployeeTest1")' + '?id=' + itemId;
+            } else {
+                window.location.href = '@Url.Action("Index", "EmployeeTest1")';
+            }
+        })
+    </script>
+}
